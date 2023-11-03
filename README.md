@@ -32,7 +32,7 @@ To use SEMS Portal, you need to have Python and `aiohttp` installed. Here’s a 
 ```python
 import aiohttp
 import asyncio
-from sems_portal import login_to_sems
+from sems_portal_api import login_to_sems
 
 async def main():
     async with aiohttp.ClientSession() as session:
