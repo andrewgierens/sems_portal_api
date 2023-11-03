@@ -1,0 +1,20 @@
+[project]
+name = "sems_portal_api"
+version = "0.0.1"
+authors = [{ name = "Andrew Gierens", email = "apgierens@gmail.com" }]
+description = "A small package that wraps a few of the SEMS Portal apis"
+readme = "README.md"
+requires-python = ">=3.5"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/andrewgierens/sems_portal_api"
+"Bug Tracker" = "https://github.com/pypa/sems_portal_api/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
