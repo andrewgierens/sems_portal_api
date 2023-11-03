@@ -14,7 +14,7 @@ async def login_to_sems(session: ClientSession, account: str, pwd: str) -> Any:
     }
     body = {"account": account, "pwd": pwd}
 
-    response = await session.post(url, headers=headers, json=body)
+    response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
     return response_data["data"]

@@ -15,7 +15,7 @@ async def get_plant_power_chart(
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"id": plant_id, "date": formatted_date, "full_script": False}
 
-    response = await session.post(url, headers=headers, json=body, timeout=10000)
+    response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
     return response_data["data"]

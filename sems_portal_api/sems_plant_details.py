@@ -13,7 +13,7 @@ async def get_plant_details(
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 
-    response = await session.post(url, headers=headers, json=body)
+    response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
     return response_data["data"]
@@ -28,7 +28,7 @@ async def get_powerflow(
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 
-    response = await session.post(url, headers=headers, json=body)
+    response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
     return response_data["data"]
@@ -43,7 +43,7 @@ async def get_inverter_details(
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 
-    response = await session.post(url, headers=headers, json=body)
+    response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
-    return response_data["data"]
+    return response_data["data"]["inverterPoints"]

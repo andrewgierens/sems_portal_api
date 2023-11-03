@@ -1,7 +1,26 @@
-from sems_portal_api.sems_plant_details import get_powerflow
+from typing import Any
+import re
+from aiohttp import ClientSession
 
+from sems_portal_api.sems_plant_details import get_powerflow, get_plant_details, get_inverter_details
 
-async def get_plant_details(
+def get_value_by_key(array_of_dicts, key_to_find):
+    return next((dct["value"] for dct in array_of_dicts if dct["key"] == key_to_find), None)
+
+def get_value_by_target_key(array_of_dicts, key_to_find):
+    return next((dct["value"] for dct in array_of_dicts if dct["target_key"] == key_to_find), None)
+
+def extract_number(s):
+    """Remove units from string and turn to number."""
+
+    # Match one or more digits at the beginning of the string
+    match = re.match(r"(\d+)", s)
+    if match:
+        return int(match.group(1))
+
+    return None
+
+async def get_colated_plant_details(
     session: ClientSession, power_station_id: str, token: str
 ) -> Any:
     """Get powerplant details."""
@@ -13,6 +32,12 @@ async def get_plant_details(
     )
 
     plantDetails = await get_plant_details(
+        session=session,
+        power_station_id=power_station_id,
+        token=token,
+    )
+
+    inverterDetails = await get_inverter_details(
         session=session,
         power_station_id=power_station_id,
         token=token,
@@ -54,29 +79,12 @@ async def get_plant_details(
                     plant_information["powerflow"]["socText"]
                 ),
             },
-            "inverters": [],
+            "inverters": [{
+                "name": inverter["sn"],
+                "model": get_value_by_key(inverter["dict"]["left"], "dmDeviceType"),
+                "innerTemp": get_value_by_key(inverter["dict"]["right"], "innerTemp"),
+            } for inverter in inverterDetails],
         }
     }
 
     return data
-
-    # interters = [{
-    #     "name": 'Test Inverter',
-    #     "model": 'Test Inverter',
-    #     "Vpv1": random.randint(1, 10),
-    #     "Vpv2": random.randint(1, 10),
-    #     "Ipv1": random.randint(1, 10),
-    #     "Ipv2": random.randint(1, 10),
-    #     "Vac1": random.randint(1, 10),
-    #     "Vac2": random.randint(1, 10),
-    #     "Vac3": random.randint(1, 10),
-    #     "Iac1": random.randint(1, 10),
-    #     "Iac2": random.randint(1, 10),
-    #     "Iac3": random.randint(1, 10),
-    #     "Fac1": random.randint(1, 10),
-    #     "Fac2": random.randint(1, 10),
-    #     "Fac3": random.randint(1, 10),
-    #     "Pac": random.randint(1, 10),
-    #     "Tempperature": random.randint(1, 10),
-    #     "Total Generation": random.randint(1, 10)
-    # }]
