@@ -1,6 +1,6 @@
 [project]
 name = "sems_portal_api"
-version = "0.0.2"
+version = "0.0.3"
 authors = [{ name = "Andrew Gierens", email = "apgierens@gmail.com" }]
 description = "A small package that wraps a few of the SEMS Portal apis"
 readme = "README.md"
