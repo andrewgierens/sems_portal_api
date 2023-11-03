@@ -20,7 +20,7 @@ def extract_number(s):
 
     return None
 
-async def get_colated_plant_details(
+async def get_collated_plant_details(
     session: ClientSession, power_station_id: str, token: str
 ) -> Any:
     """Get powerplant details."""
