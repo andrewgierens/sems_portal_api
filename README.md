@@ -3,10 +3,6 @@
 ## Description
 SEMS Portal is a simple wrapper designed to interact with various APIs exposed by a specific website. It simplifies the process of sending requests and handling responses, making it easier for developers to integrate and work with the available services.
 
-## Features
-- Easy-to-use interface for interacting with APIs
-- Open-source with an MIT License
-
 ## Getting Started
 
 ### Prerequisites
