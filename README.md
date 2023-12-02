@@ -28,9 +28,10 @@ To use SEMS Portal, you need to have Python and `aiohttp` installed. Here’s a 
 ```python
 import aiohttp
 import asyncio
-from sems_portal_api import login_to_sems
+from sems_portal_api import login_to_sems, set_region
 
 async def main():
+    set_region('eu')
     async with aiohttp.ClientSession() as session:
         account = "your_account"
         password = "your_password"
@@ -46,6 +47,12 @@ In this example, we import the required modules and define an `async` main funct
 
 The `login_to_sems` function takes three parameters: the session, account, and password, and it returns the data received from the SEMS portal. The returned data is then printed to the console.
 
+
+For testing the demo account credentials may be used:
+```python
+account = "demo@goodwe.com"
+password = "GoodweSems123!@#"
+```
 
 ## Contributing
 Contributions to SEMS Portal are welcome and appreciated. If you have any suggestions or bug reports, please open an issue in the repository.
