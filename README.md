@@ -63,3 +63,7 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](LICE
 
 ## Contact
 If you have any questions or want to reach out, you can contact me at apgierens@gmail.com
+
+# Contributors
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
