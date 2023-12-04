@@ -66,4 +66,21 @@ If you have any questions or want to reach out, you can contact me at apgierens@
 
 # Contributors
 <!-- readme: contributors -start -->
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/andrewgierens">
+            <img src="https://avatars.githubusercontent.com/u/4150500?v=4" width="100;" alt="andrewgierens"/>
+            <br />
+            <sub><b>Andrew Gierens</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/ygerlach">
+            <img src="https://avatars.githubusercontent.com/u/100762533?v=4" width="100;" alt="ygerlach"/>
+            <br />
+            <sub><b>Yannis Gerlach</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: contributors -end -->
