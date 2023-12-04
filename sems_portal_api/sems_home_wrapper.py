@@ -14,9 +14,9 @@ def extract_number(s):
     """Remove units from string and turn to number."""
 
     # Match one or more digits at the beginning of the string
-    match = re.match(r"(\d+)", s)
+    match = re.match(r"(\d+(\.\d+))", s)
     if match:
-        return int(match.group(1))
+        return float(match.group(1))
 
     return None
 
