@@ -1,0 +1,45 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.11-buster
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Extract tag version and update pyproject.toml
+      run: |
+        TAG_VERSION=${GITHUB_REF#refs/tags/}
+        echo "Extracted version: ${{ github.ref_name }}"
+        sed -i "s/^version = .*/version = '${{ github.ref_name }}'/" pyproject.toml
+
+    - name: Install dependencies
+      run: |
+        pip install build twine
+
+    - name: Set execute permission for build.sh and dist.sh
+      run: |
+        chmod +x ./scripts/build.sh
+        chmod +x ./scripts/dist.sh
+
+    - name: Run build script
+      run: bash ./scripts/build.sh
+
+    - name: Run distribution script
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: bash ./scripts/dist.sh
+      
+    - name: Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./dist/sems_portal_api-${{ github.ref_name }}.tar.gz
