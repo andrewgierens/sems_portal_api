@@ -30,6 +30,7 @@ async def get_collated_plant_details(
         power_station_id=power_station_id,
         token=token,
     )
+    powerflow_information = plant_information["powerflow"]
 
     plantDetails = await get_plant_details(
         session=session,
@@ -59,25 +60,6 @@ async def get_collated_plant_details(
                 "allTimeGeneration": plantDetails["kpi"]["total_power"],
                 "todayIncome": plantDetails["kpi"]["day_income"],
                 "totalIncome": plantDetails["kpi"]["total_income"],
-                "generationLive": extract_number(
-                    plant_information["powerflow"]["pv"]
-                ),
-                "pvStatus": plant_information["powerflow"]["pvStatus"],
-                "battery": extract_number(
-                    plant_information["powerflow"]["bettery"]
-                ),
-                "batteryStatus": plant_information["powerflow"]["betteryStatus"],
-                "batteryStatusStr": plant_information["powerflow"][
-                    "betteryStatusStr"
-                ],
-                "houseLoad": extract_number(plant_information["powerflow"]["load"]),
-                "houseLoadStatus": plant_information["powerflow"]["loadStatus"],
-                "gridLoad": extract_number(plant_information["powerflow"]["grid"]),
-                "gridLoadStatus": plant_information["powerflow"]["gridStatus"],
-                "soc": plant_information["powerflow"]["soc"],
-                "socText": extract_number(
-                    plant_information["powerflow"]["socText"]
-                ),
             },
             "inverters": [{
                 "name": inverter["sn"],
@@ -86,5 +68,28 @@ async def get_collated_plant_details(
             } for inverter in inverterDetails],
         }
     }
+
+    if powerflow_information is not None:
+        data["powerPlant"]["info"].update({
+            "generationLive": extract_number(
+                powerflow_information["pv"]
+            ),
+            "pvStatus": powerflow_information["pvStatus"],
+            "battery": extract_number(
+                powerflow_information["bettery"]
+            ),
+            "batteryStatus": powerflow_information["betteryStatus"],
+            "batteryStatusStr": powerflow_information[
+                "betteryStatusStr"
+            ],
+            "houseLoad": extract_number(powerflow_information["load"]),
+            "houseLoadStatus": powerflow_information["loadStatus"],
+            "gridLoad": extract_number(powerflow_information["grid"]),
+            "gridLoadStatus": powerflow_information["gridStatus"],
+            "soc": powerflow_information["soc"],
+            "socText": extract_number(
+                powerflow_information["socText"]
+            ),
+        })
 
     return data
