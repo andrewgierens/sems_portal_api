@@ -14,7 +14,7 @@ def extract_number(s):
     """Remove units from string and turn to number."""
 
     # Match one or more digits at the beginning of the string
-    match = re.match(r"(\d+(\.\d+))", s)
+    match = re.match(r"(\d+(\.\d+)?)", s)
     if match:
         return float(match.group(1))
 
@@ -64,7 +64,7 @@ async def get_collated_plant_details(
             "inverters": [{
                 "name": inverter["sn"],
                 "model": get_value_by_key(inverter["dict"]["left"], "dmDeviceType"),
-                "innerTemp": get_value_by_key(inverter["dict"]["right"], "innerTemp"),
+                "innerTemp": extract_number(get_value_by_key(inverter["dict"]["left"], "innerTemp")),
             } for inverter in inverterDetails],
         }
     }
