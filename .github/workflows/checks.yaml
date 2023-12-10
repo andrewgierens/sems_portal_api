@@ -1,0 +1,31 @@
+name: Python Lint and Type Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.11-buster
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+    - name: Set execute permission for build.sh and dist.sh
+      run: |
+        chmod +x ./scripts/lint.sh
+        chmod +x ./scripts/type_check.sh
+    - name: Run Linting
+      run: ./scripts/lint.sh
+    - name: Run Type Checks
+      run: ./scripts/type_check.sh
