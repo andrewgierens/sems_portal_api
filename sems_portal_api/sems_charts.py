@@ -9,7 +9,10 @@ from sems_portal_api.sems_region import get_region
 
 
 async def get_plant_power_chart(
-    session: ClientSession, plant_id: str, token: str, targetDate: datetime = datetime.now()
+    session: ClientSession,
+    plant_id: str,
+    token: str,
+    targetDate: datetime = datetime.now(),
 ) -> Any:
     """Retrieve powerplant chart data."""
     formatted_date = targetDate.strftime("%Y-%m-%d")
