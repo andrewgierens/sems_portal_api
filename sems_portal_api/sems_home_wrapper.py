@@ -1,14 +1,26 @@
-from typing import Any
+from typing import Any, Dict
 import re
 from aiohttp import ClientSession
 
-from sems_portal_api.sems_plant_details import get_powerflow, get_plant_details, get_inverter_details
+from sems_portal_api.sems_plant_details import (
+    get_powerflow,
+    get_plant_details,
+    get_inverter_details,
+)
+
 
 def get_value_by_key(array_of_dicts, key_to_find):
-    return next((dct["value"] for dct in array_of_dicts if dct["key"] == key_to_find), None)
+    return next(
+        (dct["value"] for dct in array_of_dicts if dct["key"] == key_to_find), None
+    )
+
 
 def get_value_by_target_key(array_of_dicts, key_to_find):
-    return next((dct["value"] for dct in array_of_dicts if dct["target_key"] == key_to_find), None)
+    return next(
+        (dct["value"] for dct in array_of_dicts if dct["target_key"] == key_to_find),
+        None,
+    )
+
 
 def extract_number(s):
     """Remove units from string and turn to number."""
@@ -19,6 +31,7 @@ def extract_number(s):
         return float(match.group(1))
 
     return None
+
 
 async def get_collated_plant_details(
     session: ClientSession, power_station_id: str, token: str
@@ -44,7 +57,7 @@ async def get_collated_plant_details(
         token=token,
     )
 
-    data: [str, Any] = {}
+    data: Dict[str, Any] = {}
 
     data = {
         "powerPlant": {
@@ -61,35 +74,34 @@ async def get_collated_plant_details(
                 "todayIncome": plantDetails["kpi"]["day_income"],
                 "totalIncome": plantDetails["kpi"]["total_income"],
             },
-            "inverters": [{
-                "name": inverter["sn"],
-                "model": get_value_by_key(inverter["dict"]["left"], "dmDeviceType"),
-                "innerTemp": extract_number(get_value_by_key(inverter["dict"]["left"], "innerTemp")),
-            } for inverter in inverterDetails],
+            "inverters": [
+                {
+                    "name": inverter["sn"],
+                    "model": get_value_by_key(inverter["dict"]["left"], "dmDeviceType"),
+                    "innerTemp": extract_number(
+                        get_value_by_key(inverter["dict"]["left"], "innerTemp")
+                    ),
+                }
+                for inverter in inverterDetails
+            ],
         }
     }
 
     if powerflow_information is not None:
-        data["powerPlant"]["info"].update({
-            "generationLive": extract_number(
-                powerflow_information["pv"]
-            ),
-            "pvStatus": powerflow_information["pvStatus"],
-            "battery": extract_number(
-                powerflow_information["bettery"]
-            ),
-            "batteryStatus": powerflow_information["betteryStatus"],
-            "batteryStatusStr": powerflow_information[
-                "betteryStatusStr"
-            ],
-            "houseLoad": extract_number(powerflow_information["load"]),
-            "houseLoadStatus": powerflow_information["loadStatus"],
-            "gridLoad": extract_number(powerflow_information["grid"]),
-            "gridLoadStatus": powerflow_information["gridStatus"],
-            "soc": powerflow_information["soc"],
-            "socText": extract_number(
-                powerflow_information["socText"]
-            ),
-        })
+        data["powerPlant"]["info"].update(
+            {
+                "generationLive": extract_number(powerflow_information["pv"]),
+                "pvStatus": powerflow_information["pvStatus"],
+                "battery": extract_number(powerflow_information["bettery"]),
+                "batteryStatus": powerflow_information["betteryStatus"],
+                "batteryStatusStr": powerflow_information["betteryStatusStr"],
+                "houseLoad": extract_number(powerflow_information["load"]),
+                "houseLoadStatus": powerflow_information["loadStatus"],
+                "gridLoad": extract_number(powerflow_information["grid"]),
+                "gridLoadStatus": powerflow_information["gridStatus"],
+                "soc": powerflow_information["soc"],
+                "socText": extract_number(powerflow_information["socText"]),
+            }
+        )
 
     return data

@@ -11,7 +11,8 @@ async def get_plant_details(
     session: ClientSession, power_station_id: str, token: str
 ) -> Any:
     """Get powerplant details."""
-    url = f"https://{get_region()}.semsportal.com/api/v3/PowerStation/GetPlantDetailByPowerstationId"
+    fqdn = f"https://{get_region()}.semsportal.com"
+    url = f"{fqdn}.semsportal.com/api/v3/PowerStation/GetPlantDetailByPowerstationId"
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 
@@ -30,7 +31,6 @@ async def get_powerflow(
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 
-
     response = await session.post(url, headers=headers, json=body, timeout=5)
     response_data = await response.json()
 
@@ -42,7 +42,9 @@ async def get_inverter_details(
 ) -> Any:
     """Get the inverter data."""
 
-    url = f"https://{get_region()}.semsportal.com/api/v3/PowerStation/GetInverterAllPoint"
+    url = (
+        f"https://{get_region()}.semsportal.com/api/v3/PowerStation/GetInverterAllPoint"
+    )
     headers = {"Content-Type": "application/json", "Token": token}
     body = {"PowerStationId": power_station_id}
 

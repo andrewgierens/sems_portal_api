@@ -1,3 +1,3 @@
 #!/bin/bash
 
-black ./tessie_api
+black ./sems_portal_api

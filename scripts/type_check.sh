@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mypy ./tessie_api
+mypy ./sems_portal_api

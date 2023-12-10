@@ -1,3 +1,3 @@
 #!/bin/bash
 
-flake8 ./tessie_api
+flake8 ./sems_portal_api
